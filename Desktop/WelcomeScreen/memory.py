@@ -40,15 +40,11 @@ async def write(user_id, graphiti):
                     "description": "employee spotlight",
                 },
                 {
-                    "content": {
-                        "name": "Maria Gomez",
-                        "role": "Head of Product",
-                        "start_date": "2019-03-01",
-                        "reports_to": "CTO"
-                    },
-                    "type": EpisodeType.json,
+                    "content": "Maria Gomez leads the Product team and reports to the CTO. She has been at the company since March 2019.",
+                    "type": EpisodeType.text,
                     "description": "HR profile export",
                 },
+
             ]
 
     for i, ep in enumerate(episodes):

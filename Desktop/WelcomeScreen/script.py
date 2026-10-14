@@ -40,6 +40,7 @@ async def main(user_id, graphiti):
 
 
 
+
 if __name__ == "__main__":
     asyncio.run(main(user_id="123", graphiti=graphiti))
 
