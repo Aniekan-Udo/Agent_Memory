@@ -1,4 +1,5 @@
 import os
+from uuid import uuid4
 
 from dotenv import load_dotenv
 
@@ -32,30 +33,12 @@ graphiti = Graphiti(
     cross_encoder=BGERerankerClient()
 )
 
-async def write(user_id, graphiti):
-    episodes = [
-                {
-                    "content": "Alex Chen joined the AI Research team in May 2022 as a Senior ML Engineer reporting to Maria Gomez.",
-                    "type": EpisodeType.text,
-                    "description": "employee spotlight",
-                },
-                {
-                    "content": "Maria Gomez leads the Product team and reports to the CTO. She has been at the company since March 2019.",
-                    "type": EpisodeType.text,
-                    "description": "HR profile export",
-                },
-
-            ]
-
-    for i, ep in enumerate(episodes):
-        await graphiti.add_episode(
-            name=f"HR Episode {i}",
-            episode_body=json.dumps(ep["content"]) if isinstance(ep["content"], dict) else ep["content"],
-            source=ep["type"],
-            source_description=ep["description"],
-            reference_time=datetime.now(timezone.utc),
-            group_id=user_id
-        )
-
-
-    return graphiti
+async def write(user_id, graphiti, content, reference_time=None):
+    await graphiti.add_episode(
+        name=f"chat-{user_id}-{uuid4().hex[:8]}",
+        episode_body=content,
+        source=EpisodeType.text,
+        source_description="user chat message",
+        reference_time=reference_time or datetime.now(timezone.utc),
+        group_id=user_id,
+    )
